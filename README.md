@@ -4,7 +4,7 @@ Official Tensorflow and PyTorch Implementation of "Generalized Sum Pooling for M
 # quick info
 **tensorflow:** Implements GSP layer as well as many DML methods and provides tensorflow alternative of [MLRC](https://github.com/KevinMusgrave/pytorch-metric-learning) benchmarking framework.
 
-**pytorch:** Implements GSP layer and applies it to Inta-Batch, building on [official Intra-Batch](https://github.com/dvl-tum/intra_batch) framework.  
+**pytorch:** Implements [GSP](https://github.com/yetigurbuz/generalized-sum-pooling/tree/main/pytorch/intra_batch_framework/intra_batch/net/gsp) layer and applies it to Inta-Batch, building on [official Intra-Batch](https://github.com/dvl-tum/intra_batch) framework.  
 
 A detailed guide will be prepared soon.
 
