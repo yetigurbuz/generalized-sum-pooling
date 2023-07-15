@@ -1,0 +1,47 @@
+---
+model:
+  num_models: 4
+  backbone:
+    arch: BNInception
+
+  embedding_head:
+    embedding_size: 128
+
+    GlobalPooling:
+      l2_normalize: false
+      use_average: true
+      use_max: false
+
+    GeneralizedSumPooling:
+      transport_ratio: 0.3
+      binary_costs: l2
+      normalization: l2
+      warm_up_steps: 0
+      memory_size: 1024
+      entropy_regularizer_weight: 5.0
+      optimization_steps: 100
+
+    CBAM:
+      conv_size: 3
+      channel_reduction: 1
+
+optimizer:
+
+  method: Adam
+  learning_rate: 1.0e-5
+
+  learning_rate_scheduler:
+    method: constant
+
+
+training:
+  steps_per_epoch: 100
+  max_epochs: 10000
+  early_stopping_patience: 10
+  warm_start: 0
+  freeze_during_warmup: false
+  classes_per_batch: 8
+  sample_per_class: 4
+
+validation:
+  batch_size: 128

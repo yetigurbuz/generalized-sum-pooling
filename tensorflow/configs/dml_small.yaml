@@ -1,0 +1,43 @@
+---
+base: dml_default.yaml
+
+training:
+  steps_per_epoch: 100
+  max_epochs: 10000
+  early_stopping_patience: 15
+  warm_start: 0
+  freeze_during_warmup: true
+  classes_per_batch: 8
+  sample_per_class: 4
+
+validation:
+  batch_size: 128
+
+model:
+  embedding_head:
+    GeneralizedSumPooling:
+      support_size: 64
+      transport_ratio: 0.3
+      entropy_regularizer_weight: 5.0
+
+
+loss:
+  function: contrastive
+
+  computation_head:
+    normalize_embeddings: true
+    avg_nonzero_only: true
+
+
+  xbm:
+    function: original_contrastive
+    batches_in_mem: 25
+    start_at: 1000
+    xbm_weight: 1.0
+    pair_loss_weight: 1.0
+
+  zsr:
+    function: contrastive
+    zero_shot_prediction: True
+    prediction_loss_weight: 0.1
+    regression_regularizer_weight: 0.05

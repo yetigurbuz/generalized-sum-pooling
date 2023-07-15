@@ -1,0 +1,32 @@
+---
+base: conventional_resnet50_default.yaml
+
+model:
+  embedding_head:
+    arch: GlobalPooling
+
+    GeneralizedSumPooling:
+      support_size: 128
+      transport_ratio: 0.3
+      entropy_regularizer_weight: 5.0
+      augment_max_pool: true
+
+loss:
+  function: contrastive # contrastive, original_contrastive, triplet, multi_similarity, zero_shot_augmented, xbm
+
+  xbm:
+    function: original_contrastive
+    batches_in_mem: 1400
+    start_at: 1000
+    xbm_weight: 1.0
+    pair_loss_weight: 1.0
+
+training:
+  early_stopping_patience: 10
+  steps_per_epoch: 250
+
+optimizer:
+  learning_rate: 1.0e-4
+
+
+

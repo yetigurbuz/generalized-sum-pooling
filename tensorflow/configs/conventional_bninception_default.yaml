@@ -1,0 +1,104 @@
+---
+dataset:
+  name: CUB200_2011
+  preprocessing:
+    method: DMLPreprocessing
+
+model:
+  num_models: 1
+  backbone:
+    arch: BNInception
+
+  embedding_head:
+    embedding_size: 512
+
+    GlobalPooling:
+      l2_normalize: false
+      use_average: true
+      use_max: true
+
+    GeneralizedSumPooling:
+      transport_ratio: 0.3
+      binary_costs: l2
+      normalization: l2
+      warm_up_steps: 0
+      memory_size: 1024
+      entropy_regularizer_weight: 5.0
+      optimization_steps: 100
+      augment_max_pool: true
+
+
+optimizer:
+
+  method: Adam
+  learning_rate: 1.0e-5
+
+  learning_rate_scheduler:
+    method: reduce_on_plateau
+    reduce_on_plateau:
+      factor: 0.5
+      patience: 3
+      min_lr: 1.0e-6
+
+
+training:
+  steps_per_epoch: 25
+  max_epochs: 10000
+  early_stopping_patience: 15
+  warm_start: 0
+  freeze_during_warmup: false
+  classes_per_batch: 32
+  sample_per_class: 4
+  output_dir: '../training/metric_learning/conventional/BNInception'
+
+validation:
+  batch_size: 128
+  DMLEval:
+    monitored_metric: 'recall'
+
+
+loss:
+  function: zsr # contrastive, original_contrastive, triplet, multi_similarity, zero_shot_augmented, xbm
+
+  computation_head:
+    normalize_embeddings: true
+    avg_nonzero_only: true
+
+  contrastive:
+    pos_margin: 0.0
+    neg_margin: 1.0
+
+  original_contrastive:
+    margin: 0.5
+
+  triplet:
+    margin: 0.2
+
+  multi_similarity:
+    alpha_margin: 2.0
+    beta_margin: 40.0
+    lambda_margin: 0.5
+
+  proxy_anchor:
+    delta_margin: 0.1
+    alpha_scale: 32.
+    proxy_lrm: 100.
+
+  proxy_nca:
+    lambda_softmax: 0.11
+    delta_margin: 0.00
+    proxy_lrm: 100.0
+
+  xbm:
+    function: original_contrastive
+    batches_in_mem: 25
+    start_at: 1000
+    xbm_weight: 1.0
+    pair_loss_weight: 1.0
+
+
+  zsr:
+    function: contrastive # any of the above
+    zero_shot_prediction: True
+    prediction_loss_weight: 0.1
+    regression_regularizer_weight: 0.05
