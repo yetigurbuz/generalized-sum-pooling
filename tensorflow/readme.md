@@ -16,8 +16,11 @@ yaml, numpy, PIL, sklearn, scipy, matplotlib, imageio, pprint
 *assuming the following structure:*
 
 ├── metric_learning
+
 |   ├── configs
+
 │   ├── framework
+
 │   ├── trainModel.py
 
 (1) put custom config files in ./metric_learning/configs
