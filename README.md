@@ -29,7 +29,7 @@ yaml, numpy, PIL, sklearn, scipy, matplotlib, imageio, pprint
 
 (2) run >python trainModel.py command with arguments
 
-(2.1) dataset can be passes as an argument
+(2.1) dataset can be passed as an argument
 
 (2.2) dataset is downloaded automatically
 
